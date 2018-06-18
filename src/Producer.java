@@ -1,7 +1,7 @@
 import javax.jms.*;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import javax.naming.*;
+import java.util.Properties;
+import java.util.Queue;
 
 public class Producer {
 
@@ -20,7 +20,17 @@ public class Producer {
         this.text = text;
         this.expiration = expiration;
 
+        /*Properties p = new Properties();
+        p.put("java.naming.factory.initial","org.jnp.interfaces.NamingContextFactory");
+        p.put("java.naming.provider.url", "jnp://ammann2.fh-reutlingen.de:1099");
+        p.put("java.naming.factory.url.pkgs", "org.jnp.interfaces");
+*/
+
         Context ctx = new InitialContext();
+        ctx.addToEnvironment("java.naming.factory.initial", "org.jnp.interfaces.NamingContextFactory");
+        ctx.addToEnvironment("java.naming.provider.url", "jnp://ammann2.fh-reutlingen.de:1099");
+        //ctx.addToEnvironment("java.naming.factory.url.pkgs", "org.jnp.interfaces");
+
 
         QueueConnectionFactory factory = (QueueConnectionFactory) ctx.lookup("ConnectionFactory");
 
@@ -30,7 +40,7 @@ public class Producer {
 
         session = connection.createQueueSession(false, session.AUTO_ACKNOWLEDGE);
 
-        sender = session.createSender(queue);
+        sender = session.createSender((javax.jms.Queue) queue);
 
     }
     public void sendMessage() throws JMSException {

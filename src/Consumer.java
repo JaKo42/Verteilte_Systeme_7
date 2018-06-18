@@ -17,7 +17,7 @@ public class Consumer {
 
     public Consumer(long timeout) throws NamingException, JMSException {
         this.timeout = timeout;
-        
+
         Context ctx = new InitialContext();
 
         QueueConnectionFactory factory = (QueueConnectionFactory) ctx.lookup("ConnectionFactory");

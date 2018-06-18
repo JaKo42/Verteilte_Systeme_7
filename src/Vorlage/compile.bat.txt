@@ -1,0 +1,1 @@
+javac -sourcepath src -cp %JMS_PATH% -d build src/*.java
